@@ -9,12 +9,26 @@
 import UIKit
 
 class ViewController: UIViewController {
-
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-        // Do any additional setup after loading the view, typically from a nib.
+        loadMovies()
+        
+        
     }
-
-
+    
+    
+    
+    
+    
+    func loadMovies() {
+        
+        guard  let jsonURL = Bundle.main.url(forResource: "movies", withExtension: "json") else {return}
+        
+        
+        
+    }
+    
 }
+
 
