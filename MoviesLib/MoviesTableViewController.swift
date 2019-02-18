@@ -17,6 +17,20 @@ class MoviesTableViewController: UITableViewController {
         loadMovies()
     }
     
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+       // segue.destination
+        if let row = tableView.indexPathForSelectedRow?.row,
+            let movieVC = segue.destination as? MovieViewController{
+           
+     
+            let movie = movies[row]
+            movieVC.movie = movie
+            
+        }
+        
+        
+    }
+    
     func loadMovies() {
         guard let jsonURL = Bundle.main.url(forResource: "movies", withExtension: "json") else {return}
         
