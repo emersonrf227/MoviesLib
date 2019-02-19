@@ -6,6 +6,8 @@
 //  Copyright © 2019 emerson. All rights reserved.
 //
 
+
+/*
 import Foundation
 
 
@@ -19,4 +21,7 @@ struct Movie: Codable {
     let image: String
     
 }
+
+*/
+
 

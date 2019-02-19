@@ -29,7 +29,7 @@ class MovieViewController: UIViewController {
         if let movie = movie {
             
             
-            ivPoster.image = UIImage(named: movie.image)
+           // ivPoster.image = UIImage(named: movie.image)
             lbTitle.text = movie.title
             lbDuration.text = movie.duration
             lbGenero.text = movie.categories
