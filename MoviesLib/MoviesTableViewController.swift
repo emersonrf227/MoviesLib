@@ -9,11 +9,10 @@
 import UIKit
 import CoreData
 
+
 class MoviesTableViewController: UITableViewController {
     
-   // var movies: [Movie] = []
-    
-    
+    //var movies: [Movie] = []
     
     var fetchedResultsController: NSFetchedResultsController<Movie>!
     
@@ -23,16 +22,13 @@ class MoviesTableViewController: UITableViewController {
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-       // segue.destination
-        if let indexPath = tableView.indexPathForSelectedRow,
-            let movieVC = segue.destination as? MovieViewController{
-           
-     
-         //   let movie = movies[row]
-            movieVC.movie = fetchedResultsController.object(at: indexPath)
-            
-        }
         
+        //if let row = tableView.indexPathForSelectedRow?.row, let movieVC = segue.destination as? MovieViewController {
+        if let indexPath = tableView.indexPathForSelectedRow, let movieVC = segue.destination as? MovieViewController {
+            //let movie = movies[row]
+            let movie = fetchedResultsController.object(at: indexPath)
+            movieVC.movie = movie
+        }
         
     }
     
@@ -40,37 +36,33 @@ class MoviesTableViewController: UITableViewController {
         
         let fetchRequest: NSFetchRequest<Movie> = Movie.fetchRequest()
         let sortDescriptor = NSSortDescriptor(key: "title", ascending: true)
-        fetchRequest.sortDescriptors = [sortDescriptor]
+        let sortDescriptor2 = NSSortDescriptor(key: "duration", ascending: true)
+        fetchRequest.sortDescriptors = [sortDescriptor, sortDescriptor2]
         
-        fetchedResultsController = NSFetchedResultsController (fetchRequest: fetchRequest, managedObjectContext: context, sectionNameKeyPath: nil, cacheName: nil)
+        fetchedResultsController = NSFetchedResultsController(fetchRequest: fetchRequest, managedObjectContext: context, sectionNameKeyPath: nil, cacheName: nil)
         
         fetchedResultsController.delegate = self
         
-        do{
-            try fetchedResultsController.performFetch()
-            
-        }catch
-        {print(error)}
-        
-        
-        
-        
-        
-        
-        /*
-        guard let jsonURL = Bundle.main.url(forResource: "movies", withExtension: "json") else {return}
-        
         do {
-            let jsonData = try Data(contentsOf: jsonURL)
-            
-            let jsonDecoder = JSONDecoder()
-            //jsonDecoder.keyDecodingStrategy = .convertFromSnakeCase
-            movies = try jsonDecoder.decode([Movie].self, from: jsonData)
-            
+            try fetchedResultsController.performFetch()
         } catch {
             print(error)
         }
-        */
+        
+        /*
+         guard let jsonURL = Bundle.main.url(forResource: "movies", withExtension: "json") else {return}
+         
+         do {
+         let jsonData = try Data(contentsOf: jsonURL)
+         
+         let jsonDecoder = JSONDecoder()
+         //jsonDecoder.keyDecodingStrategy = .convertFromSnakeCase
+         movies = try jsonDecoder.decode([Movie].self, from: jsonData)
+         
+         } catch {
+         print(error)
+         }
+         */
     }
     
     // MARK: - Table view data source
@@ -86,7 +78,10 @@ class MoviesTableViewController: UITableViewController {
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath) as! MovieTableViewCell
         
+        //let movie = movies[indexPath.row]
+        
         let movie = fetchedResultsController.object(at: indexPath)
+        
         cell.prepare(with: movie)
         
         return cell
@@ -101,16 +96,16 @@ class MoviesTableViewController: UITableViewController {
      */
     
     
-     // Override to support editing the table view.
+    // Override to support editing the table view.
     override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
-     if editingStyle == .delete {
-        
-        let movie = fetchedResultsController.object(at: indexPath)
-        context.delete(movie)
-        try? context.save()
-
-     }
-}
+        if editingStyle == .delete {
+            // Delete the row from the data source
+            //tableView.deleteRows(at: [indexPath], with: .fade)
+            let movie = fetchedResultsController.object(at: indexPath)
+            context.delete(movie)
+            try? context.save()
+        }
+    }
     
     
     /*
@@ -141,13 +136,10 @@ class MoviesTableViewController: UITableViewController {
 }
 
 
-extension MoviesTableViewController: NSFetchedResultsControllerDelegate{
+extension MoviesTableViewController: NSFetchedResultsControllerDelegate {
     
     func controllerDidChangeContent(_ controller: NSFetchedResultsController<NSFetchRequestResult>) {
-        
         tableView.reloadData()
-     
     }
-    
     
 }

@@ -4,6 +4,12 @@
 <dict>
 	<key>CFBundleDevelopmentRegion</key>
 	<string>$(DEVELOPMENT_LANGUAGE)</string>
+	<key>privacy</key>
+	<string></string>
+	<key>NSLocationWhenInUseUsageDescription</key>
+	<string>Libera essa Porra !!</string>
+	<key>NSCameraUsageDescription</key>
+	<string>Libera a cam ai !!!</string>
 	<key>CFBundleDisplayName</key>
 	<string>MoviesLib</string>
 	<key>CFBundleExecutable</key>
